@@ -31,7 +31,22 @@ def search_shops(request):
             user_lat = form.cleaned_data.get('latitude')
             user_lon = form.cleaned_data.get('longitude')
 
-             
+            latitude_error = None
+            longitude_error = None
+
+            if user_lat is None or not (-90 <= user_lat <= 90):
+                latitude_error = "Please provide a valid latitude between -90 and 90."
+
+            if user_lon is None or not (-180 <= user_lon <= 180):
+                longitude_error = "Please provide a valid longitude between -180 and 180."
+
+            if latitude_error or longitude_error:
+                return render(request, 'shops/search_shops.html', {
+                    'form': form,
+                    'latitude_error': latitude_error,
+                    'longitude_error': longitude_error
+                })
+
             if user_lat is None or user_lon is None:
                 return render(request, 'shops/search_shops.html', {
                     'form': form,

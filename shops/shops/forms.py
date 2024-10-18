@@ -21,3 +21,15 @@ class ShopRegistrationForm(forms.ModelForm):
 class SearchShopsForm(forms.Form):
     latitude = forms.FloatField(label='Latitude', required=True)
     longitude = forms.FloatField(label='Longitude', required=True)
+
+    def clean_latitude(self):
+        latitude = self.cleaned_data.get('latitude')
+        if latitude < -90 or latitude > 90:
+            raise forms.ValidationError("Latitude must be between -90 and 90.")
+        return latitude
+
+    def clean_longitude(self):
+        longitude = self.cleaned_data.get('longitude')
+        if longitude < -180 or longitude > 180:
+            raise forms.ValidationError("Longitude must be between -180 and 180.")
+        return longitude

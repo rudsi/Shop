@@ -27,21 +27,19 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
             width: 100%;
-            /* Set width to 100% for better responsiveness */
             max-width: 400px;
-            /* Set a maximum width for the form */
+            text-align: left;
+            /* Align text to the left for better readability */
         }
 
         input[type="text"],
         input[type="number"] {
             width: calc(100% - 22px);
-            /* Adjust width for padding and border */
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            /* Include padding and border in the element's total width */
         }
 
         button {
@@ -61,7 +59,12 @@
 
         .error {
             color: red;
-            margin-top: 10px;
+            margin-top: -8px;
+            /* Move error messages closer to inputs */
+            margin-bottom: 10px;
+            /* Space below error messages */
+            font-size: 12px;
+            /* Smaller font for error messages */
         }
     </style>
 </head>
@@ -70,19 +73,22 @@
     <h1>Register a New Shop</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }} <!-- Display the label -->
+            {{ field }} <!-- Display the input field -->
+            {% for error in field.errors %}
+            <p class="error">{{ error }}</p> <!-- Display error messages -->
+            {% endfor %}
+        </div>
+        {% endfor %}
         <button type="submit">Register</button>
     </form>
 
-    {% if form.errors %}
+    {% if form.non_field_errors %}
     <div class="error">
         <p>Please fix the errors below:</p>
         <ul>
-            {% for field in form %}
-            {% for error in field.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-            {% endfor %}
             {% for error in form.non_field_errors %}
             <li>{{ error }}</li>
             {% endfor %}

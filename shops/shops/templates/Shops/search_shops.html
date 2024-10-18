@@ -28,7 +28,8 @@
             display: inline-block;
             width: 100%;
             max-width: 400px;
-            /* Set maximum width for the form */
+            text-align: left;
+            /* Align text to the left for better readability */
         }
 
         input[type="text"],
@@ -58,7 +59,12 @@
 
         .error {
             color: red;
-            margin-top: 10px;
+            margin-top: -8px;
+            /* Move error messages closer to inputs */
+            margin-bottom: 10px;
+            /* Space below error messages */
+            font-size: 12px;
+            /* Smaller font for error messages */
         }
 
         h2 {
@@ -68,9 +74,7 @@
 
         ul {
             list-style-type: none;
-            /* Remove bullet points */
             padding: 0;
-            /* Remove default padding */
         }
 
         li {
@@ -80,7 +84,6 @@
             border-radius: 4px;
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
-            /* Align text to the left */
         }
 
         p {
@@ -93,13 +96,17 @@
     <h1>Search for Shops</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }} <!-- Display the label -->
+            {{ field }} <!-- Display the input field -->
+            {% for error in field.errors %}
+            <p class="error">{{ error }}</p> <!-- Display error messages -->
+            {% endfor %}
+        </div>
+        {% endfor %}
         <button type="submit">Search</button>
     </form>
-
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
 
     {% if results %}
     <h2>Search Results:</h2>
@@ -108,8 +115,6 @@
         <li>{{ shop.shop_name }} - Distance: {{ shop.distance_km }} km</li>
         {% endfor %}
     </ul>
-    {% else %}
-    <p>No shops found.</p>
     {% endif %}
 </body>
 
