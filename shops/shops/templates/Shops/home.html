@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Shop Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to Shop Finder</h1>
+    <p>If you are a shop vendor and want to register your shop, click the button below:</p>
+    <a href="{% url 'register_shop' %}" class="button">Register Shop</a>
+
+    <p>If you are a user and want to search for shops near you, click the button below:</p>
+    <a href="{% url 'search_shops' %}" class="button">Search Shops</a>
+</body>
+
+</html>
